@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Artesanías Saravia — Fibras naturales tejidas a mano</title>
+  <meta name="description" content="Emiliano Saravia, artesano de fibras naturales en Santa Fe Capital. Canastos, cestos, mobiliario y trabajos personalizados en mimbre. Pedidos por WhatsApp.">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="container">
+    <span id="topbar-hours">Pedidos personalizados · Respondemos por WhatsApp</span>
+    <a href="https://www.instagram.com/artesanias_saravia/" target="_blank" rel="noopener">@artesanias_saravia</a>
+  </div>
+</div>
+
+<header class="site-header">
+  <nav class="nav container">
+    <a href="#inicio" class="brand">
+      <img class="brand-logo" src="./img/logo_saravia.png" alt="Artesanías Saravia" width="42" height="42">
+      <span class="brand-name" id="brand-name">Artesanías Saravia</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="#nosotros">Nosotros</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="cart-open-btn" aria-label="Abrir carrito">
+        🛒<span class="cart-badge" id="cart-badge">0</span>
+      </button>
+      <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">☰</button>
+    </div>
+  </nav>
+</header>
+
+<section class="hero" id="inicio">
+  <div class="container">
+    <div>
+      <span class="hero-eyebrow">Fibras naturales · Santa Fe Capital</span>
+      <h1>Donde el diseño<br>encuentra el <em>oficio</em><br>del mimbre</h1>
+      <p class="lead">Soy Emiliano Saravia. Trabajo a mano piezas en mimbre y fibras naturales: canastos, cestos, mobiliario y encargos a medida. Cada tejido cuenta una historia.</p>
+      <div class="hero-ctas">
+        <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+        <a href="#contacto" class="btn btn-secondary">Pedí a medida</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="./img/logo_saravia.png" alt="Logo Artesanías Saravia" class="hero-photo">
+    </div>
+  </div>
+</section>
+
+<section class="categories">
+  <div class="container">
+    <div class="cat-scroll" id="cat-scroll">
+      <button class="cat-chip active" data-cat="all">Todos</button>
+    </div>
+  </div>
+</section>
+
+
+<!-- CATALOG SECTION-->
+<section class="section" id="catalogo">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <h2>Nuestro catálogo</h2>
+        <p>Piezas reales tejidas a mano. Armá tu pedido y lo cerramos por WhatsApp.</p>
+      </div>
+    </div>
+    <div class="catalog-toolbar reveal">
+      <input type="search" id="product-search" placeholder="Buscar canasto, cesto, lámpara..." autocomplete="off">
+      <span id="product-count" class="product-count"></span>
+    </div>
+    <div id="catalog-loading" class="catalog-loading">Cargando catálogo…</div>
+    <div class="grid" id="product-grid" style="display:none">
+      <!-- productos inyectados por JS -->
+    </div>
+  </div>
+</section>
+
+<section class="section" id="nosotros">
+  <div class="container">
+    <div class="about reveal">
+      <div class="about-inner">
+        <div>
+          <h2>Tejido a mano,<br>pensado para durar</h2>
+          <p>Soy Emiliano, artesano de fibras naturales en Santa Fe Capital. Trabajo el mimbre y otras fibras con técnicas tradicionales y un ojo contemporáneo. Cada pieza es personalizada o de stock limitado: no hay dos iguales.</p>
+          <p style="margin-top:12px">Si necesitás medidas específicas, un color particular o un diseño propio, escribime. Armamos el proyecto juntos.</p>
+          <div class="stat-row">
+            <div class="stat"><b>100%</b><span>hecho a mano</span></div>
+            <div class="stat"><b>A medida</b><span>trabajos personalizados</span></div>
+            <div class="stat"><b>Santa Fe</b><span>Capital, Argentina</span></div>
+          </div>
+        </div>
+        <div class="about-art"><img src="./img/logo_saravia.png" alt="Logo" class="about-logo"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="contacto">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <h2>Hablemos por WhatsApp</h2>
+        <p>Completá el formulario o mandanos un mensaje directo. Respondemos lo antes posible.</p>
+      </div>
+    </div>
+    <div class="contact-grid reveal">
+      <div>
+        <div class="info-card">
+          <span class="ic"></span>
+          <div><b>Ubicación</b><span id="contact-address">Santa Fe Capital, Argentina</span></div>
+        </div>
+        <div class="info-card">
+          <span class="ic"></span>
+          <div><b>Atención</b><span id="contact-hours">Pedidos personalizados · WhatsApp</span></div>
+        </div>
+        <div class="info-card">
+          <span class="ic"></span>
+          <div><b>Email</b><span id="contact-email">hola@artesaniassaravia.com</span></div>
+        </div>
+        <div class="info-card">
+          <span class="ic"></span>
+          <div><b>Instagram</b><span><a id="contact-ig" href="https://www.instagram.com/artesanias_saravia/" target="_blank" rel="noopener">@artesanias_saravia</a></span></div>
+        </div>
+        <div class="info-card">
+          <span class="ic"></span>
+          <div><b>Facebook</b><span><a id="contact-fb" href="https://www.facebook.com/profile.php?id=61577900293015" target="_blank" rel="noopener">Perfil de Facebook</a></span></div>
+        </div>
+      </div>
+      <form class="form-card" id="contact-form">
+        <div class="field">
+          <label for="cf-name">Nombre</label>
+          <input type="text" id="cf-name" required placeholder="Tu nombre">
+        </div>
+        <div class="field">
+          <label for="cf-msg">Mensaje</label>
+          <textarea id="cf-msg" required placeholder="Contame qué necesitás: medidas, estilo, uso..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-whatsapp btn-block">Enviar por WhatsApp 📲</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container footer-grid">
+    <div>
+      <h4 id="footer-brand">Artesanías Saravia</h4>
+      <p>Emiliano Saravia · Artesano de fibras naturales. Canastos, cestos, mobiliario y trabajos a medida en mimbre. Santa Fe Capital.</p>
+    </div>
+    <div>
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <ul>
+        <li id="footer-email">hola@artesaniassaravia.com</li>
+        <li id="footer-address">Santa Fe Capital, Argentina</li>
+        <li><a href="https://www.instagram.com/artesanias_saravia/" target="_blank" rel="noopener">Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© <span id="year"></span> Artesanías Saravia. Todos los derechos reservados.</div>
+</footer>
+
+<button class="fab-whatsapp" id="fab-whatsapp" aria-label="Escribinos por WhatsApp">📲</button>
+<button class="fab-cart" id="fab-cart" aria-label="Abrir carrito">
+  🛒<span class="cart-badge" id="cart-badge-2">0</span>
+</button>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="cart-drawer" aria-label="Carrito de compras">
+  <div class="drawer-head">
+    <h3>Tu carrito</h3>
+    <button class="drawer-close" id="drawer-close" aria-label="Cerrar carrito">✕</button>
+  </div>
+  <div class="drawer-items" id="drawer-items"></div>
+  <div class="drawer-foot">
+    <div class="drawer-total"><span>Total</span><span id="drawer-total">$0</span></div>
+    <button class="btn btn-whatsapp btn-block" id="checkout-btn">Pedir por WhatsApp 📲</button>
+  </div>
+</aside>
+
+<div class="toast" id="toast"></div>
+
+<script src="./js/config.js"></script>
+<script src="./js/store.js"></script>
+<script src="./js/main.js"></script>
+</body>
+</html>
