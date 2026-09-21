@@ -300,16 +300,63 @@ font-style: italic;
 
 .hero-art {
   position: relative;
-  background: transparent;
-  border-radius: 90%;
-  
-display: flex;
+  display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
   opacity: 0;
   animation: fadeIn 1s var(--ease) 0.2s forwards;
-  box-shadow: 5px 5px 25px 5px rgba(126, 75, 24, 0.555)
+  background: transparent !important;
+}
+.hero-carousel {
+  width: min(100%, 440px);
+  position: relative;
+}
+.hero-slides {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--cream-2);
+  box-shadow: 18px 20px 0 rgba(107, 127, 106, 0.28), var(--shadow-md);
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.04);
+  transition: opacity 0.55s ease, transform 0.8s var(--ease), visibility 0.55s;
+}
+.hero-slide.active { opacity: 1; visibility: visible; transform: scale(1); }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; }
+.hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 45% 0 0;
+  background: linear-gradient(transparent, rgba(31, 26, 22, 0.7));
+}
+.hero-slide-caption {
+  position: absolute;
+  z-index: 1;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  color: white;
+}
+.hero-slide-caption span {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.78;
+}
+.hero-slide-caption strong {
+  display: block;
+  margin-top: 4px;
+  font: 600 27px/1.05 'Cormorant Garamond', serif;
+}
+.hero-carousel-controls {
+  display: none;
 }
 .hero-art .hero-icon {
   font-size: 100px;
@@ -698,12 +745,32 @@ footer a:hover {
   color: white;
 }
 .footer-bottom {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
   font-size: 12.5px;
   margin-top: 36px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 18px;
 }
+.legal-links { display: flex; gap: 18px; }
+.legal-links a { font-size: 12.5px; }
+.social-links { display: flex; gap: 10px; margin-top: 20px; }
+.social-links a {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.social-links a:hover { background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+.social-links svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+.social-links a:nth-child(2) svg { fill: currentColor; stroke: none; }
+.social-links a:nth-child(3) svg path:first-child { fill: none; }
 
 /* ---------- Floating buttons ---------- */
 .fab-whatsapp {
@@ -898,10 +965,31 @@ footer a:hover {
   transform: translateX(-50%) translateY(0);
 }
 
+/* ---------- Legal pages ---------- */
+.legal-page { min-height: 100vh; display: flex; flex-direction: column; }
+.legal-main { flex: 1; padding: 72px 0; }
+.legal-content { max-width: 760px; }
+.legal-kicker { color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; font-size: 12px; font-weight: 600; }
+.legal-content h1 { font-size: clamp(40px, 6vw, 64px); margin-top: 12px; }
+.legal-content .legal-updated { color: var(--ink-soft); margin: 14px 0 42px; }
+.legal-content h2 { font-size: 25px; margin: 34px 0 8px; }
+.legal-content p, .legal-content li { color: var(--ink-soft); font-size: 16px; }
+.legal-content ul { padding-left: 22px; }
+.legal-back { display: inline-flex; margin-top: 36px; color: var(--wicker-700); font-weight: 600; text-decoration: none; }
+.legal-back:hover { text-decoration: underline; }
+
+@media (max-width: 760px) {
+  .hero { padding: 52px 0 64px; }
+  .hero .container { grid-template-columns: 1fr; gap: 44px; }
+  .hero-art { width: min(100%, 390px); margin: 0 auto; }
+  .footer-bottom { justify-content: center; text-align: center; }
+  .legal-links { justify-content: center; }
+}
+
 /* ---------- Mobile nav ---------- */
 @media (max-width: 860px) {
   .hero .container { grid-template-columns: 1fr; }
-  .hero-art { max-width: 320px; margin: 0 auto; aspect-ratio: 1; }
+  .hero-art { max-width: 320px; margin: 0 auto; }
   .nav-links {
     display: none;
     position: absolute;
@@ -931,22 +1019,6 @@ footer a:hover {
   border-radius: 90%;
   object-fit: fill;
   box-shadow: var(--shadow-sm);
-}
-
-.hero-art {
-  background: var(--cream-2);
-  padding: 0;
-}
-.hero-art .hero-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 90%;
-  display: block;
-}
-.hero-art::before,
-.hero-art::after {
-  display: none;
 }
 
 .about-logo {

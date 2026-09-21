@@ -19,7 +19,7 @@
 <header class="site-header">
   <nav class="nav container">
     <a href="#inicio" class="brand">
-      <img class="brand-logo" src="./img/logo_saravia.png" alt="Artesanías Saravia" width="42" height="42">
+      <img class="brand-logo" src="./img/logo-artesanias-saravia.png" alt="Artesanías Saravia" width="42" height="42">
       <span class="brand-name" id="brand-name">Artesanías Saravia</span>
     </a>
     <ul class="nav-links" id="nav-links">
@@ -49,7 +49,22 @@
       </div>
     </div>
     <div class="hero-art">
-      <img src="./img/logo_saravia.png" alt="Logo Artesanías Saravia" class="hero-photo">
+      <div class="hero-carousel" id="hero-carousel" aria-label="Productos destacados">
+        <div class="hero-slides">
+          <article class="hero-slide active" data-hero-product="mat-01">
+            <img src="./img/canasto-matero-clasico.jpg" alt="Canasto matero clásico">
+            <div class="hero-slide-caption"><span>Destacado</span><strong>Canasto matero clásico</strong></div>
+          </article>
+          <article class="hero-slide" data-hero-product="ban-01">
+            <img src="./img/bandolera-redonda.jpg" alt="Bandolera redonda con tapa">
+            <div class="hero-slide-caption"><span>Hecho a mano</span><strong>Bandolera redonda</strong></div>
+          </article>
+          <article class="hero-slide" data-hero-product="mob-01">
+            <img src="./img/mecedor-reforzado.jpg" alt="Sillón mecedor de mimbre reforzado">
+            <div class="hero-slide-caption"><span>Oficio artesanal</span><strong>Sillón mecedor</strong></div>
+          </article>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -97,7 +112,7 @@
             <div class="stat"><b>Santa Fe</b><span>Capital, Argentina</span></div>
           </div>
         </div>
-        <div class="about-art"><img src="./img/logo_saravia.png" alt="Logo" class="about-logo"></div>
+        <div class="about-art"><img src="./img/logo-artesanias-saravia.png" alt="Logo" class="about-logo"></div>
       </div>
     </div>
   </div>
@@ -170,9 +185,20 @@
         <li id="footer-address">Santa Fe Capital, Argentina</li>
         <li><a href="https://www.instagram.com/artesanias_saravia/" target="_blank" rel="noopener">Instagram</a></li>
       </ul>
+      <div class="social-links" aria-label="Redes sociales">
+        <a href="https://www.instagram.com/artesanias_saravia/" target="_blank" rel="noopener" aria-label="Instagram">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle cx="17.5" cy="6.5" r="1"></circle></svg>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61577900293015" target="_blank" rel="noopener" aria-label="Facebook">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 8h3V4h-3c-3.3 0-5 1.9-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9c0-.7.3-1 1-1Z"></path></svg>
+        </a>
+        <a href="https://wa.me/5493420000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.5-4.1A8 8 0 1 1 20 11.5Z"></path><path d="M8.5 8.5c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.6 1.4c.1.2.1.4-.1.6l-.5.6c.6 1.1 1.4 1.8 2.5 2.3l.5-.5c.2-.2.4-.2.7-.1l1.3.6c.3.1.4.3.3.6-.2.8-.8 1.3-1.6 1.3-2.1-.1-5.5-2.8-6-5.3-.1-.6.1-1.2.6-1.5Z"></path></svg>
+        </a>
+      </div>
     </div>
   </div>
-  <div class="footer-bottom">© <span id="year"></span> Artesanías Saravia. Todos los derechos reservados.</div>
+  <div class="footer-bottom"><span>© <span id="year"></span> Artesanías Saravia. Todos los derechos reservados.</span><span class="legal-links"><a href="./privacy.html">Privacidad</a><a href="./terms.html">Términos y condiciones</a></span></div>
 </footer>
 
 <button class="fab-whatsapp" id="fab-whatsapp" aria-label="Escribinos por WhatsApp">📲</button>

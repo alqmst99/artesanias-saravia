@@ -308,6 +308,32 @@
     els.forEach((el) => obs.observe(el));
   }
 
+  function setupHeroCarousel() {
+    const carousel = document.getElementById("hero-carousel");
+    if (!carousel) return;
+    const slides = [...carousel.querySelectorAll(".hero-slide")];
+    let current = 0;
+    let timer;
+
+    slides.forEach((slide) => {
+      const product = Store.getProduct(slide.dataset.heroProduct);
+      if (!product) return;
+      const image = slide.querySelector("img");
+      const title = slide.querySelector("strong");
+      if (image) {
+        image.src = product.image || placeholderImage(product.category, product.name);
+        image.alt = product.name;
+      }
+      if (title) title.textContent = product.name;
+    });
+
+    function show(index) {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+    }
+    timer = setInterval(() => show(current + 1), 5200);
+  }
+
   async function init() {
     const loading = document.getElementById("catalog-loading");
     const grid = document.getElementById("product-grid");
@@ -321,6 +347,7 @@
     paintConfig();
     renderCategories();
     renderProducts();
+    setupHeroCarousel();
     renderCartBadge();
     renderDrawer();
     setupReveal();

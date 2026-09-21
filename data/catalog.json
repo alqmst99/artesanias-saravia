@@ -15,7 +15,7 @@
       "description": "Canasto cuadrado con asa alta tejido a mano. Ideal para termo, mate y yerba. Interior forrado. Llevá la naturaleza con vos.",
       "price": 0,
       "stock": 6,
-      "image": "./img/cover.jpg"
+      "image": "./img/canasto-matero-clasico.jpg"
     },
     {
       "id": "mat-02",
@@ -24,7 +24,7 @@
       "description": "Diseño en mimbre natural y oscuro con patrón en X. Asa reforzada e interior acolchado. Compañero perfecto para salidas y camping.",
       "price": 0,
       "stock": 5,
-      "image": "./img/reel_cover_7.jpg"
+      "image": "./img/canasto-matero-bicolor.jpg"
     },
     {
       "id": "mat-03",
@@ -33,7 +33,7 @@
       "description": "Canasto bajo con asas de madera y mimbre. Pensado para llevar termo, mate y yerba con comodidad. Hecho a mano.",
       "price": 0,
       "stock": 4,
-      "image": "./img/reel_cover_2.jpg"
+      "image": "./img/canasto-matero-termo.jpg"
     },
     {
       "id": "ban-01",
@@ -42,7 +42,7 @@
       "description": "Bandolera de mimbre con tapa entretejida y correa ajustable. Perfecta para playa, picnic o el día a día. Fibras naturales.",
       "price": 0,
       "stock": 4,
-      "image": "./img/cover-1.jpg"
+      "image": "./img/bandolera-redonda.jpg"
     },
     {
       "id": "ban-02",
@@ -51,7 +51,7 @@
       "description": "Bandolera rectangular con tejido en X, tapa con cierre de lazo y correa ajustable. Disponible en stock.",
       "price": 0,
       "stock": 3,
-      "image": "./img/reel_cover_13.jpg"
+      "image": "./img/bandolera-rectangular.jpg"
     },
     {
       "id": "ban-03",
@@ -60,7 +60,7 @@
       "description": "Cuerpo ovalado en mimbre natural y blanco, tapa con detalle trenzado y correa. Ideal para salidas.",
       "price": 0,
       "stock": 3,
-      "image": "./img/reel_cover_14.jpg"
+      "image": "./img/bandolera-ovalada-bicolor.jpg"
     },
     {
       "id": "org-01",
@@ -69,7 +69,7 @@
       "description": "Tres tamaños con borde trenzado e interior de arpillera. Ideales para mesa, baño o living. Combinan con cualquier ambiente.",
       "price": 0,
       "stock": 5,
-      "image": "./img/reel_cover_4.jpg"
+      "image": "./img/set-canastos-organizadores.jpg"
     },
     {
       "id": "org-02",
@@ -78,7 +78,7 @@
       "description": "Cesto alto rectangular con tapa y manija de anillo. Tejido natural con franja central. Perfecto para ropa o juguetes.",
       "price": 0,
       "stock": 3,
-      "image": "./img/reel_cover_1.jpg"
+      "image": "./img/baul-cesto-ropa.jpg"
     },
     {
       "id": "org-03",
@@ -87,7 +87,7 @@
       "description": "Baúl bajo cuadrado con tapa tejida. Sirve de asiento o almacenamiento. Acabado natural.",
       "price": 0,
       "stock": 4,
-      "image": "./img/657884937_17920315347317911_7215112046756819627_n.jpg"
+      "image": "./img/puff-baul-mimbre.jpg"
     },
     {
       "id": "dec-01",
@@ -96,7 +96,7 @@
       "description": "Canasta clásica de mimbre con asa arqueada. Ideal para regalo, panera o centro de mesa.",
       "price": 0,
       "stock": 6,
-      "image": "./img/reel_cover_9.jpg"
+      "image": "./img/canasta-ovalada.jpg"
     },
     {
       "id": "dec-02",
@@ -105,7 +105,7 @@
       "description": "Jarrón tejido a mano, forma de ánfora. Ideal para pampas, flores secas o decoración natural. Disponible.",
       "price": 0,
       "stock": 4,
-      "image": "./img/reel_cover_12.jpg"
+      "image": "./img/florero-jarron-mimbre.jpg"
     },
     {
       "id": "dec-03",
@@ -114,7 +114,7 @@
       "description": "Envase tipo damajuana revestido en mimbre natural con franja y asa trenzada. Decorativo y resistente.",
       "price": 0,
       "stock": 3,
-      "image": "./img/reel_cover_18.jpg"
+      "image": "./img/damajuana-mimbre.jpg"
     },
     {
       "id": "mob-01",
@@ -123,7 +123,7 @@
       "description": "Sillón mecedor hecho a mano, estructura reforzada, tejido artesanal y diseño clásico. Listo para usar. Consultas por WhatsApp.",
       "price": 0,
       "stock": 2,
-      "image": "./img/reel_cover_11.jpg"
+      "image": "./img/mecedor-reforzado.jpg"
     },
     {
       "id": "mob-02",
@@ -132,7 +132,7 @@
       "description": "Mecedor de mimbre con motivo geométrico en el respaldo. Terminaciones cuidadas y estructura firme para uso prolongado.",
       "price": 0,
       "stock": 2,
-      "image": "./img/reel_cover_15.jpg"
+      "image": "./img/mecedor-respaldo-geometrico.jpg"
     },
     {
       "id": "mob-03",
@@ -141,7 +141,7 @@
       "description": "Moisés ovalado tejido a mano con soporte de patas. Incluye espacio para colchón. Disponible. Ideal para bebés.",
       "price": 0,
       "stock": 2,
-      "image": "./img/reel_cover_16.jpg"
+      "image": "./img/moises-mimbre.jpg"
     },
     {
       "id": "per-01",
@@ -150,7 +150,7 @@
       "description": "Pedí lo que necesites: medidas, forma, color y uso. Emiliano diseña y teje cada pieza a tu medida. Escribinos por WhatsApp.",
       "price": 0,
       "stock": 99,
-      "image": "./img/logo_saravia.png"
+      "image": "./img/logo-artesanias-saravia.png"
     }
   ]
 }
