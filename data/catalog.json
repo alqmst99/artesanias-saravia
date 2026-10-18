@@ -1,11 +1,30 @@
 {
+  "catalogVersion": 3,
   "categories": [
-    { "id": "materos", "name": "Canastos materos" },
-    { "id": "bandoleras", "name": "Bandoleras" },
-    { "id": "organizadores", "name": "Organizadores" },
-    { "id": "decoracion", "name": "Decoración" },
-    { "id": "mobiliario", "name": "Mobiliario" },
-    { "id": "personalizados", "name": "A medida" }
+    {
+      "id": "materos",
+      "name": "Canastos materos"
+    },
+    {
+      "id": "bandoleras",
+      "name": "Bandoleras"
+    },
+    {
+      "id": "organizadores",
+      "name": "Organizadores"
+    },
+    {
+      "id": "decoracion",
+      "name": "Decoración"
+    },
+    {
+      "id": "mobiliario",
+      "name": "Mobiliario"
+    },
+    {
+      "id": "personalizados",
+      "name": "A medida"
+    }
   ],
   "products": [
     {
@@ -15,7 +34,15 @@
       "description": "Canasto cuadrado con asa alta tejido a mano. Ideal para termo, mate y yerba. Interior forrado. Llevá la naturaleza con vos.",
       "price": 0,
       "stock": 6,
-      "image": "./img/canasto-matero-clasico.jpg"
+      "image": "./img/canasto-matero-clasico.jpg",
+      "images": [
+        "./img/canasto-matero-clasico.jpg",
+        "./img/detalle-producto-01.jpg",
+        "./img/producto-artesanal-01.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "mat-02",
@@ -24,7 +51,15 @@
       "description": "Diseño en mimbre natural y oscuro con patrón en X. Asa reforzada e interior acolchado. Compañero perfecto para salidas y camping.",
       "price": 0,
       "stock": 5,
-      "image": "./img/canasto-matero-bicolor.jpg"
+      "image": "./img/canasto-matero-bicolor.jpg",
+      "images": [
+        "./img/canasto-matero-bicolor.jpg",
+        "./img/detalle-producto-02.jpg",
+        "./img/producto-artesanal-02.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "mat-03",
@@ -33,7 +68,15 @@
       "description": "Canasto bajo con asas de madera y mimbre. Pensado para llevar termo, mate y yerba con comodidad. Hecho a mano.",
       "price": 0,
       "stock": 4,
-      "image": "./img/canasto-matero-termo.jpg"
+      "image": "./img/canasto-matero-termo.jpg",
+      "images": [
+        "./img/canasto-matero-termo.jpg",
+        "./img/detalle-producto-03.jpg",
+        "./img/producto-artesanal-03.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "ban-01",
@@ -42,7 +85,15 @@
       "description": "Bandolera de mimbre con tapa entretejida y correa ajustable. Perfecta para playa, picnic o el día a día. Fibras naturales.",
       "price": 0,
       "stock": 4,
-      "image": "./img/bandolera-redonda.jpg"
+      "image": "./img/bandolera-redonda.jpg",
+      "images": [
+        "./img/bandolera-redonda.jpg",
+        "./img/producto-artesanal-01.jpg",
+        "./img/producto-artesanal-04.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "ban-02",
@@ -51,7 +102,15 @@
       "description": "Bandolera rectangular con tejido en X, tapa con cierre de lazo y correa ajustable. Disponible en stock.",
       "price": 0,
       "stock": 3,
-      "image": "./img/bandolera-rectangular.jpg"
+      "image": "./img/bandolera-rectangular.jpg",
+      "images": [
+        "./img/bandolera-rectangular.jpg",
+        "./img/producto-artesanal-02.jpg",
+        "./img/detalle-producto-01.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "ban-03",
@@ -60,7 +119,15 @@
       "description": "Cuerpo ovalado en mimbre natural y blanco, tapa con detalle trenzado y correa. Ideal para salidas.",
       "price": 0,
       "stock": 3,
-      "image": "./img/bandolera-ovalada-bicolor.jpg"
+      "image": "./img/bandolera-ovalada-bicolor.jpg",
+      "images": [
+        "./img/bandolera-ovalada-bicolor.jpg",
+        "./img/producto-artesanal-03.jpg",
+        "./img/detalle-producto-02.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "org-01",
@@ -69,7 +136,15 @@
       "description": "Tres tamaños con borde trenzado e interior de arpillera. Ideales para mesa, baño o living. Combinan con cualquier ambiente.",
       "price": 0,
       "stock": 5,
-      "image": "./img/set-canastos-organizadores.jpg"
+      "image": "./img/set-canastos-organizadores.jpg",
+      "images": [
+        "./img/set-canastos-organizadores.jpg",
+        "./img/producto-artesanal-04.jpg",
+        "./img/detalle-producto-03.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "org-02",
@@ -78,7 +153,15 @@
       "description": "Cesto alto rectangular con tapa y manija de anillo. Tejido natural con franja central. Perfecto para ropa o juguetes.",
       "price": 0,
       "stock": 3,
-      "image": "./img/baul-cesto-ropa.jpg"
+      "image": "./img/baul-cesto-ropa.jpg",
+      "images": [
+        "./img/baul-cesto-ropa.jpg",
+        "./img/detalle-producto-01.jpg",
+        "./img/producto-artesanal-01.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "org-03",
@@ -87,7 +170,15 @@
       "description": "Baúl bajo cuadrado con tapa tejida. Sirve de asiento o almacenamiento. Acabado natural.",
       "price": 0,
       "stock": 4,
-      "image": "./img/puff-baul-mimbre.jpg"
+      "image": "./img/puff-baul-mimbre.jpg",
+      "images": [
+        "./img/puff-baul-mimbre.jpg",
+        "./img/detalle-producto-02.jpg",
+        "./img/producto-artesanal-02.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "dec-01",
@@ -96,7 +187,15 @@
       "description": "Canasta clásica de mimbre con asa arqueada. Ideal para regalo, panera o centro de mesa.",
       "price": 0,
       "stock": 6,
-      "image": "./img/canasta-ovalada.jpg"
+      "image": "./img/canasta-ovalada.jpg",
+      "images": [
+        "./img/canasta-ovalada.jpg",
+        "./img/detalle-producto-03.jpg",
+        "./img/producto-artesanal-03.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "dec-02",
@@ -105,7 +204,15 @@
       "description": "Jarrón tejido a mano, forma de ánfora. Ideal para pampas, flores secas o decoración natural. Disponible.",
       "price": 0,
       "stock": 4,
-      "image": "./img/florero-jarron-mimbre.jpg"
+      "image": "./img/florero-jarron-mimbre.jpg",
+      "images": [
+        "./img/florero-jarron-mimbre.jpg",
+        "./img/producto-artesanal-01.jpg",
+        "./img/producto-artesanal-04.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "dec-03",
@@ -114,7 +221,15 @@
       "description": "Envase tipo damajuana revestido en mimbre natural con franja y asa trenzada. Decorativo y resistente.",
       "price": 0,
       "stock": 3,
-      "image": "./img/damajuana-mimbre.jpg"
+      "image": "./img/damajuana-mimbre.jpg",
+      "images": [
+        "./img/damajuana-mimbre.jpg",
+        "./img/producto-artesanal-02.jpg",
+        "./img/detalle-producto-01.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "mob-01",
@@ -123,7 +238,15 @@
       "description": "Sillón mecedor hecho a mano, estructura reforzada, tejido artesanal y diseño clásico. Listo para usar. Consultas por WhatsApp.",
       "price": 0,
       "stock": 2,
-      "image": "./img/mecedor-reforzado.jpg"
+      "image": "./img/mecedor-reforzado.jpg",
+      "images": [
+        "./img/mecedor-reforzado.jpg",
+        "./img/producto-artesanal-03.jpg",
+        "./img/detalle-producto-02.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "mob-02",
@@ -132,7 +255,15 @@
       "description": "Mecedor de mimbre con motivo geométrico en el respaldo. Terminaciones cuidadas y estructura firme para uso prolongado.",
       "price": 0,
       "stock": 2,
-      "image": "./img/mecedor-respaldo-geometrico.jpg"
+      "image": "./img/mecedor-respaldo-geometrico.jpg",
+      "images": [
+        "./img/mecedor-respaldo-geometrico.jpg",
+        "./img/producto-artesanal-04.jpg",
+        "./img/detalle-producto-03.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "mob-03",
@@ -141,7 +272,15 @@
       "description": "Moisés ovalado tejido a mano con soporte de patas. Incluye espacio para colchón. Disponible. Ideal para bebés.",
       "price": 0,
       "stock": 2,
-      "image": "./img/moises-mimbre.jpg"
+      "image": "./img/moises-mimbre.jpg",
+      "images": [
+        "./img/moises-mimbre.jpg",
+        "./img/detalle-producto-01.jpg",
+        "./img/producto-artesanal-01.jpg"
+      ],
+      "active": true,
+      "featured": false,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     },
     {
       "id": "per-01",
@@ -150,7 +289,15 @@
       "description": "Pedí lo que necesites: medidas, forma, color y uso. Emiliano diseña y teje cada pieza a tu medida. Escribinos por WhatsApp.",
       "price": 0,
       "stock": 99,
-      "image": "./img/logo-artesanias-saravia.png"
+      "image": "./img/logo-artesanias-saravia.png",
+      "images": [
+        "./img/logo-artesanias-saravia.png",
+        "./img/identidad-saravia.png",
+        "./img/producto-artesanal-01.jpg"
+      ],
+      "active": true,
+      "featured": true,
+      "material": "Mimbre y fibras naturales tejidas a mano"
     }
   ]
 }

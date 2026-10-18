@@ -1,51 +1,82 @@
+/**
+ * UI + carrito + WhatsApp — Artesanías Saravia
+ * Mejorado con patrones de Mundo Bebé SF:
+ * - resolveImage + placeholders
+ * - carrito con snapshot del producto
+ * - filtros + búsqueda + paginación
+ * - featured / hero
+ * - mensajes de pedido más ricos
+ */
 (function () {
-  const CART_KEY = "artesanias_saravia_cart_v1";
+  const CART_KEY = "artesanias_saravia_cart_v2";
   let activeCategory = "all";
   let searchQuery = "";
-  let visibleCount = 24;
-  const PAGE_SIZE = 24;
-  let CFG = Store.getConfig();
+  let visibleCount = 12;
+  const PAGE_SIZE = 12;
+  let CFG = {};
 
-  const CATEGORY_ICONS = {
-    materos: "🧉",
-    bandoleras: "👜",
-    organizadores: "📦",
-    decoracion: "✨",
-    mobiliario: "🪑",
-    personalizados: "✏️",
-  };
+  function isInPages() {
+    return typeof location !== "undefined" && location.pathname.includes("/pages/");
+  }
+
+  function basePath() {
+    return isInPages() ? "../" : "./";
+  }
+
+  function productUrl(id) {
+    return basePath() + "pages/producto.html?id=" + encodeURIComponent(id);
+  }
+
+  function catalogUrl() {
+    return basePath() + "pages/catalogo.html";
+  }
 
   function paintConfig() {
-    const brand = document.getElementById("brand-name");
-    if (brand) brand.textContent = CFG.businessName;
-    const footerBrand = document.getElementById("footer-brand");
-    if (footerBrand) footerBrand.textContent = CFG.businessName;
-    const topbar = document.getElementById("topbar-hours");
-    if (topbar) topbar.textContent = CFG.hours;
-    const addr = document.getElementById("contact-address");
-    if (addr) addr.textContent = CFG.address;
-    const hours = document.getElementById("contact-hours");
-    if (hours) hours.textContent = CFG.hours;
-    const email = document.getElementById("contact-email");
-    if (email) email.textContent = CFG.email;
+    CFG = Store.getConfig();
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    set("brand-name", CFG.businessName);
+    set("footer-brand", CFG.businessName);
+    set("topbar-hours", CFG.hours);
+    set("contact-address", CFG.address);
+    set("contact-hours", CFG.hours);
+    set("contact-email", CFG.email);
+    set("footer-email", CFG.email);
+    set("footer-address", CFG.address);
+    set("year", new Date().getFullYear());
+
     const ig = document.getElementById("contact-ig");
-    if (ig) ig.href = CFG.instagram;
+    if (ig && CFG.instagram) ig.href = CFG.instagram;
     const fb = document.getElementById("contact-fb");
     if (fb) fb.href = CFG.facebook || "#";
-    const footerEmail = document.getElementById("footer-email");
-    if (footerEmail) footerEmail.textContent = CFG.email;
-    const footerAddr = document.getElementById("footer-address");
-    if (footerAddr) footerAddr.textContent = CFG.address;
-    const year = document.getElementById("year");
-    if (year) year.textContent = new Date().getFullYear();
-    document.title = CFG.businessName + " — Fibras naturales tejidas a mano";
+
+    if (!document.body.dataset.keepTitle) {
+      document.title = CFG.businessName + " — Fibras naturales tejidas a mano";
+    }
   }
 
   function money(n) {
-    if (n === 0) return "Consultar";
-    return CFG.currency + Number(n).toLocaleString("es-AR");
+    if (n === 0 || n == null) return "Consultar";
+    return (CFG.currency || "$") + Number(n).toLocaleString("es-AR");
   }
 
+  function resolveImage(src, product) {
+    if (src && typeof src === "string" && src.trim()) {
+      if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
+        return src;
+      }
+      const clean = src.replace(/^\.?\/+/, "");
+      return basePath() + clean;
+    }
+    if (product) {
+      return Store.placeholderImage(product.category, product.name);
+    }
+    return Store.placeholderImage("decoracion", "Foto próximamente");
+  }
+
+  // ——— Carrito ———
   function getCart() {
     try {
       return JSON.parse(localStorage.getItem(CART_KEY)) || [];
@@ -53,94 +84,100 @@
       return [];
     }
   }
+
   function setCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     renderCartBadge();
     renderDrawer();
   }
+
   function addToCart(productId) {
     const product = Store.getProduct(productId);
     if (!product) return;
-    if (product.stock <= 0 && product.price > 0) return;
+    if (product.stock <= 0 && product.price > 0) {
+      showToast("Sin stock disponible");
+      return;
+    }
     const cart = getCart();
     const line = cart.find((i) => i.id === productId);
     const currentQty = line ? line.qty : 0;
+
     if (product.price > 0 && currentQty >= product.stock) {
       showToast("No hay más stock disponible de este producto");
       return;
     }
+
     if (line) {
       line.qty += 1;
     } else {
-      cart.push({ id: productId, qty: 1 });
+      // Snapshot para que el carrito no se rompa si cambia el catálogo
+      cart.push({
+        id: productId,
+        qty: 1,
+        name: product.name,
+        price: product.price,
+        image: product.image || (product.images && product.images[0]) || "",
+        category: product.category,
+      });
     }
     setCart(cart);
     showToast(`Agregado: ${product.name}`);
   }
+
   function changeQty(productId, delta) {
-    const product = Store.getProduct(productId);
     const cart = getCart();
     const line = cart.find((i) => i.id === productId);
     if (!line) return;
+    const product = Store.getProduct(productId);
     line.qty += delta;
     if (line.qty <= 0) {
       setCart(cart.filter((i) => i.id !== productId));
-    } else if (product && product.price > 0 && line.qty > product.stock) {
-      showToast("No hay más stock disponible");
-    } else {
-      setCart(cart);
+      return;
     }
+    if (product && product.price > 0 && line.qty > product.stock) {
+      line.qty = product.stock;
+      showToast("Stock máximo alcanzado");
+    }
+    setCart(cart);
   }
+
   function removeFromCart(productId) {
     setCart(getCart().filter((i) => i.id !== productId));
   }
+
   function cartTotal(cart) {
+    // Si todos son "consultar", no mostramos número
+    const hasPriced = cart.some((line) => {
+      const p = Store.getProduct(line.id);
+      const price = line.price != null ? line.price : p ? p.price : 0;
+      return price > 0;
+    });
+    if (!hasPriced) return null;
     return cart.reduce((sum, line) => {
       const p = Store.getProduct(line.id);
-      return sum + (p && p.price ? p.price * line.qty : 0);
+      const price = line.price != null ? line.price : p ? p.price : 0;
+      return sum + price * line.qty;
     }, 0);
   }
 
-  function placeholderImage(cat, name) {
-    // SVG placeholder con tonos naturales de mimbre
-    const colors = {
-      canastos: "#C4A574",
-      cestos: "#D4B896",
-      decoracion: "#B8956A",
-    organizadores: "📦",
-      mobiliario: "#A67C52",
-      personalizados: "#8B7355",
-    };
-    const bg = colors[cat] || "#C4A574";
-    const label = (name || "Mimbre").slice(0, 18);
-    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-      <rect fill="${bg}" width="400" height="400"/>
-      <rect fill="rgba(255,255,255,0.15)" x="40" y="40" width="320" height="320" rx="8"/>
-      <text x="200" y="195" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="Georgia,serif" font-size="22">${label}</text>
-      <text x="200" y="230" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="sans-serif" font-size="14">Artesanías Saravia</text>
-    </svg>`;
-    return "data:image/svg+xml," + encodeURIComponent(svg);
-  }
-
+  // ——— Render ———
   function renderCategories() {
     const wrap = document.getElementById("cat-scroll");
     if (!wrap) return;
     const cats = Store.getCategories();
-    wrap.innerHTML =
-      `<button class="cat-chip active" data-cat="all">Todos</button>` +
-      cats
-        .map(
-          (c) =>
-            `<button class="cat-chip" data-cat="${c.id}"><span class="emoji">${CATEGORY_ICONS[c.id] || "🌿"}</span>${c.name}</button>`
-        )
-        .join("");
-
-    wrap.querySelectorAll(".cat-chip").forEach((btn) => {
+    const allBtn = `<button type="button" class="cat-chip ${activeCategory === "all" ? "active" : ""}" data-cat="all">Todos</button>`;
+    const chips = cats
+      .map((c) => {
+        const icon = Store.getCategoryIcon(c.id);
+        return `<button type="button" class="cat-chip ${activeCategory === c.id ? "active" : ""}" data-cat="${c.id}">${icon} ${c.name}</button>`;
+      })
+      .join("");
+    wrap.innerHTML = allBtn + chips;
+    wrap.querySelectorAll("[data-cat]").forEach((btn) => {
       btn.addEventListener("click", () => {
         activeCategory = btn.dataset.cat;
         visibleCount = PAGE_SIZE;
-        wrap.querySelectorAll(".cat-chip").forEach((b) => b.classList.remove("active"));
-        btn.classList.add("active");
+        renderCategories();
         renderProducts();
       });
     });
@@ -148,13 +185,16 @@
 
   function filteredProducts() {
     let products = Store.getProducts();
-    if (activeCategory !== "all") products = products.filter((p) => p.category === activeCategory);
+    if (activeCategory !== "all") {
+      products = products.filter((p) => p.category === activeCategory);
+    }
     const q = searchQuery.trim().toLowerCase();
     if (q) {
       products = products.filter(
         (p) =>
-          (p.name || "").toLowerCase().includes(q) ||
-          (p.description || "").toLowerCase().includes(q)
+          p.name.toLowerCase().includes(q) ||
+          (p.description || "").toLowerCase().includes(q) ||
+          Store.getCategoryName(p.category).toLowerCase().includes(q)
       );
     }
     return products;
@@ -163,57 +203,91 @@
   function renderProducts() {
     const grid = document.getElementById("product-grid");
     if (!grid) return;
+
     const products = filteredProducts();
     const countEl = document.getElementById("product-count");
-    if (countEl) countEl.textContent = products.length + " producto" + (products.length === 1 ? "" : "s");
+    if (countEl) {
+      countEl.textContent =
+        products.length + " producto" + (products.length === 1 ? "" : "s");
+    }
 
     if (products.length === 0) {
-      grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:var(--ink-soft)">No hay productos con ese filtro.</p>`;
+      grid.innerHTML =
+        '<p style="grid-column:1/-1;text-align:center;color:var(--ink-soft);padding:40px 0">No hay productos con ese filtro.</p>';
       return;
     }
 
     const slice = products.slice(0, visibleCount);
     grid.innerHTML = slice
       .map((p) => {
-        const img = p.image || placeholderImage(p.category, p.name);
+        const img = resolveImage(p.image || (p.images && p.images[0]), p);
         const out = p.stock <= 0 && p.price > 0;
-        const safeName = (p.name || "").replace(/"/g, "&quot;");
+        let badgeText = "Disponible";
+        let badgeClass = "badge-stock";
+        if (out) {
+          badgeText = "Sin stock";
+          badgeClass = "badge-stock badge-out";
+        } else if (p.price === 0) {
+          badgeText = p.featured ? "Destacado" : "A medida";
+        } else if (p.featured) {
+          badgeText = "Destacado";
+        }
+        const safeName = escapeHtml(p.name);
+        const href = productUrl(p.id);
         return `
-      <article class="card reveal in">
-        <div class="card-media">
-          <img src="${img}" alt="${safeName}" loading="lazy">
-          <span class="badge-stock ${out ? "badge-out" : ""}">${out ? "Sin stock" : p.price === 0 ? "A medida" : "Disponible"}</span>
-        </div>
-        <div class="card-body">
-          <span class="card-cat">${Store.getCategoryName(p.category)}</span>
-          <h3 class="card-title">${p.name}</h3>
-          <p class="card-desc">${p.description || ""}</p>
-          <div class="card-footer">
-            <span class="card-price">${money(p.price)}</span>
-            <button class="add-btn" data-add="${p.id}" ${out ? "disabled" : ""} aria-label="Agregar al carrito">+</button>
+      <article class="card reveal in" data-id="${p.id}">
+        <a class="card-link" href="${href}">
+          <div class="card-media">
+            <img src="${img}" alt="${safeName}" loading="lazy"
+                 onerror="this.onerror=null;this.src='${Store.placeholderImage(p.category, p.name)}'">
+            <span class="${badgeClass}">${badgeText}</span>
           </div>
-        </div>
+          <div class="card-body">
+            <span class="card-cat">${Store.getCategoryIcon(p.category)} ${Store.getCategoryName(p.category)}</span>
+            <h3 class="card-title">${safeName}</h3>
+            <p class="card-desc">${escapeHtml(p.description || "")}</p>
+            <div class="card-footer">
+              <span class="card-price">${money(p.price)}</span>
+              <button class="add-btn" data-add="${p.id}" ${out ? "disabled" : ""} aria-label="${p.price === 0 ? "Consultar" : "Agregar al carrito"}">+</button>
+            </div>
+          </div>
+        </a>
       </article>`;
       })
       .join("");
 
     if (products.length > visibleCount) {
-      grid.innerHTML += `<div class="load-more-wrap" style="grid-column:1/-1;text-align:center;margin-top:12px"><button class="btn btn-secondary" id="load-more-btn">Ver más (${products.length - visibleCount} restantes)</button></div>`;
-      document.getElementById("load-more-btn").addEventListener("click", () => {
+      grid.innerHTML += `<div class="load-more-wrap" style="grid-column:1/-1;text-align:center;margin-top:12px">
+        <button class="btn btn-secondary" id="load-more-btn">Ver más (${products.length - visibleCount} restantes)</button>
+      </div>`;
+      document.getElementById("load-more-btn")?.addEventListener("click", () => {
         visibleCount += PAGE_SIZE;
         renderProducts();
       });
     }
 
     grid.querySelectorAll("[data-add]").forEach((btn) => {
-      btn.addEventListener("click", () => addToCart(btn.dataset.add));
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addToCart(btn.dataset.add);
+      });
     });
+  }
+
+  function escapeHtml(str) {
+    return String(str || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   function renderCartBadge() {
     const cart = getCart();
     const count = cart.reduce((s, l) => s + l.qty, 0);
-    [document.getElementById("cart-badge"), document.getElementById("cart-badge-2")].forEach((el) => {
+    ["cart-badge", "cart-badge-2"].forEach((id) => {
+      const el = document.getElementById(id);
       if (!el) return;
       el.textContent = count;
       el.classList.toggle("show", count > 0);
@@ -221,117 +295,192 @@
   }
 
   function renderDrawer() {
-    const cart = getCart();
     const wrap = document.getElementById("drawer-items");
+    const totalEl = document.getElementById("drawer-total");
     if (!wrap) return;
-    if (cart.length === 0) {
+    const cart = getCart();
+
+    if (!cart.length) {
       wrap.innerHTML = `<div class="drawer-empty"><span class="emoji">🌿</span>Tu carrito está vacío.<br>¡Agregá piezas del catálogo!</div>`;
-    } else {
-      wrap.innerHTML = cart
-        .map((line) => {
-          const p = Store.getProduct(line.id);
-          if (!p) return "";
-          const img = p.image || placeholderImage(p.category, p.name);
-          return `
+      if (totalEl) totalEl.textContent = "—";
+      return;
+    }
+
+    wrap.innerHTML = cart
+      .map((line) => {
+        const p = Store.getProduct(line.id);
+        const name = line.name || (p && p.name) || "Producto";
+        const price = line.price != null ? line.price : p ? p.price : 0;
+        const img = resolveImage(
+          line.image || (p && p.image),
+          p || { category: line.category, name }
+        );
+        return `
         <div class="cart-item">
-          <img src="${img}" alt="${p.name}">
+          <img src="${img}" alt="${escapeHtml(name)}">
           <div class="ci-info">
-            <div class="ci-title">${p.name}</div>
-            <div class="ci-price">${money(p.price)} c/u</div>
+            <div class="ci-title">${escapeHtml(name)}</div>
+            <div class="ci-price">${money(price)} c/u</div>
             <div class="qty-control">
-              <button data-dec="${p.id}" aria-label="Restar">−</button>
+              <button data-dec="${line.id}" aria-label="Restar">−</button>
               <span>${line.qty}</span>
-              <button data-inc="${p.id}" aria-label="Sumar">+</button>
-              <button class="remove-item" data-remove="${p.id}">Quitar</button>
+              <button data-inc="${line.id}" aria-label="Sumar">+</button>
+              <button class="remove-item" data-remove="${line.id}">Quitar</button>
             </div>
           </div>
         </div>`;
-        })
-        .join("");
+      })
+      .join("");
 
-      wrap.querySelectorAll("[data-inc]").forEach((b) => b.addEventListener("click", () => changeQty(b.dataset.inc, 1)));
-      wrap.querySelectorAll("[data-dec]").forEach((b) => b.addEventListener("click", () => changeQty(b.dataset.dec, -1)));
-      wrap.querySelectorAll("[data-remove]").forEach((b) => b.addEventListener("click", () => removeFromCart(b.dataset.remove)));
-    }
-    const totalEl = document.getElementById("drawer-total");
-    if (totalEl) totalEl.textContent = money(cartTotal(cart));
+    wrap.querySelectorAll("[data-inc]").forEach((b) =>
+      b.addEventListener("click", () => changeQty(b.dataset.inc, 1))
+    );
+    wrap.querySelectorAll("[data-dec]").forEach((b) =>
+      b.addEventListener("click", () => changeQty(b.dataset.dec, -1))
+    );
+    wrap.querySelectorAll("[data-remove]").forEach((b) =>
+      b.addEventListener("click", () => removeFromCart(b.dataset.remove))
+    );
+
+    const total = cartTotal(cart);
+    if (totalEl) totalEl.textContent = total == null ? "A consultar" : money(total);
   }
 
   function waLink(message) {
-    return `https://wa.me/${CFG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+    const num = (CFG.whatsappNumber || "").replace(/\D/g, "");
+    return `https://wa.me/${num}?text=${encodeURIComponent(message)}`;
   }
 
   function buildOrderMessage() {
     const cart = getCart();
     const lines = cart.map((line) => {
       const p = Store.getProduct(line.id);
-      const priceStr = p.price === 0 ? "Consultar precio" : money(p.price * line.qty);
-      return `• ${line.qty} x ${p.name} — ${priceStr}`;
+      const name = line.name || (p && p.name) || "Producto";
+      const price = line.price != null ? line.price : p ? p.price : 0;
+      const priceStr = price > 0 ? money(price) : "Consultar precio";
+      return `• ${name} × ${line.qty} (${priceStr})`;
     });
     const total = cartTotal(cart);
-    const totalStr = total > 0 ? money(total) : "A consultar";
-    return [CFG.orderMessagePrefix, "", ...lines, "", `Total estimado: ${totalStr}`, "", "¿Me confirmás disponibilidad y forma de entrega?"].join("\n");
+    const totalLine = total == null ? "\nTotal: a consultar según pieza" : `\nTotal estimado: ${money(total)}`;
+    return `${CFG.orderMessagePrefix || "¡Hola! Quiero este pedido:"}\n\n${lines.join("\n")}${totalLine}\n\n¿Me confirmás disponibilidad y forma de entrega?`;
   }
 
   function openDrawer() {
     document.getElementById("cart-drawer")?.classList.add("open");
     document.getElementById("overlay")?.classList.add("open");
   }
+
   function closeDrawer() {
     document.getElementById("cart-drawer")?.classList.remove("open");
     document.getElementById("overlay")?.classList.remove("open");
   }
 
-  let toastTimer;
   function showToast(msg) {
     const t = document.getElementById("toast");
     if (!t) return;
     t.textContent = msg;
     t.classList.add("show");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove("show"), 2400);
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove("show"), 2600);
+  }
+
+
+  function renderFeatured() {
+    const grid = document.getElementById("featured-grid");
+    if (!grid) return;
+    const items = Store.getFeatured(6);
+    if (!items.length) {
+      grid.closest("section")?.style && (grid.closest("section").style.display = "none");
+      return;
+    }
+    grid.innerHTML = items
+      .map((p) => {
+        const img = resolveImage(p.image || (p.images && p.images[0]), p);
+        const href = productUrl(p.id);
+        const safeName = escapeHtml(p.name);
+        return `
+      <article class="card reveal in">
+        <a class="card-link" href="${href}">
+          <div class="card-media">
+            <img src="${img}" alt="${safeName}" loading="lazy">
+            <span class="badge-stock">Destacado</span>
+          </div>
+          <div class="card-body">
+            <span class="card-cat">${Store.getCategoryIcon(p.category)} ${Store.getCategoryName(p.category)}</span>
+            <h3 class="card-title">${safeName}</h3>
+            <div class="card-footer">
+              <span class="card-price">${money(p.price)}</span>
+              <button class="add-btn" data-add="${p.id}" aria-label="Agregar">+</button>
+            </div>
+          </div>
+        </a>
+      </article>`;
+      })
+      .join("");
+
+    grid.querySelectorAll("[data-add]").forEach((btn) => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        addToCart(btn.dataset.add);
+      });
+    });
   }
 
   function setupReveal() {
-    const els = document.querySelectorAll(".reveal");
-    const obs = new IntersectionObserver(
+    const els = document.querySelectorAll(".reveal:not(.in)");
+    if (!els.length || !("IntersectionObserver" in window)) {
+      els.forEach((el) => el.classList.add("in"));
+      return;
+    }
+    const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
           if (e.isIntersecting) {
             e.target.classList.add("in");
-            obs.unobserve(e.target);
+            io.unobserve(e.target);
           }
         });
       },
       { threshold: 0.12 }
     );
-    els.forEach((el) => obs.observe(el));
+    els.forEach((el) => io.observe(el));
   }
 
   function setupHeroCarousel() {
     const carousel = document.getElementById("hero-carousel");
     if (!carousel) return;
     const slides = [...carousel.querySelectorAll(".hero-slide")];
-    let current = 0;
-    let timer;
+    if (slides.length < 2) return;
 
+    // Enriquecer captions desde el catálogo si hay data-hero-product
     slides.forEach((slide) => {
-      const product = Store.getProduct(slide.dataset.heroProduct);
+      const pid = slide.dataset.heroProduct;
+      if (!pid) return;
+      const product = Store.getProduct(pid);
       if (!product) return;
-      const image = slide.querySelector("img");
-      const title = slide.querySelector("strong");
-      if (image) {
-        image.src = product.image || placeholderImage(product.category, product.name);
-        image.alt = product.name;
+      const img = slide.querySelector("img");
+      if (img && product.image) {
+        img.src = resolveImage(product.image, product);
+        img.alt = product.name;
       }
-      if (title) title.textContent = product.name;
+      const cap = slide.querySelector(".hero-slide-caption strong");
+      if (cap) cap.textContent = product.name;
     });
 
+    let current = 0;
+    let timer;
     function show(index) {
-      current = (index + slides.length) % slides.length;
-      slides.forEach((slide, i) => slide.classList.toggle("active", i === current));
+      current = ((index % slides.length) + slides.length) % slides.length;
+      slides.forEach((s, i) => s.classList.toggle("active", i === current));
     }
-    timer = setInterval(() => show(current + 1), 5200);
+    function start() {
+      clearInterval(timer);
+      timer = setInterval(() => show(current + 1), 5200);
+    }
+    start();
+    carousel.addEventListener("mouseenter", () => clearInterval(timer));
+    carousel.addEventListener("mouseleave", start);
   }
 
   async function init() {
@@ -343,11 +492,17 @@
       if (loading) loading.style.display = "none";
       if (grid) grid.style.display = "";
     }
-    CFG = Store.getConfig();
+
     paintConfig();
     renderCategories();
     renderProducts();
+    renderFeatured();
     setupHeroCarousel();
+
+    // CTA a catálogo multi-página
+    document.querySelectorAll("[data-catalog-link]").forEach((a) => {
+      a.setAttribute("href", catalogUrl());
+    });
     renderCartBadge();
     renderDrawer();
     setupReveal();
@@ -371,12 +526,18 @@
     document.getElementById("overlay")?.addEventListener("click", closeDrawer);
 
     document.getElementById("fab-whatsapp")?.addEventListener("click", () => {
-      window.open(waLink(CFG.contactMessagePrefix + " Quiero más información sobre tus trabajos en mimbre."), "_blank");
+      window.open(
+        waLink(
+          (CFG.contactMessagePrefix || "¡Hola!") +
+            " Quiero más información sobre tus trabajos en mimbre y fibras naturales."
+        ),
+        "_blank"
+      );
     });
 
     document.getElementById("checkout-btn")?.addEventListener("click", () => {
       const cart = getCart();
-      if (cart.length === 0) {
+      if (!cart.length) {
         showToast("Tu carrito está vacío");
         return;
       }
@@ -385,16 +546,18 @@
 
     document.getElementById("contact-form")?.addEventListener("submit", (e) => {
       e.preventDefault();
-      const name = document.getElementById("cf-name").value.trim();
-      const msg = document.getElementById("cf-msg").value.trim();
-      const full = `${CFG.contactMessagePrefix}\n\nNombre: ${name}\nMensaje: ${msg}`;
+      const name = document.getElementById("cf-name")?.value.trim() || "";
+      const msg = document.getElementById("cf-msg")?.value.trim() || "";
+      const full = `${CFG.contactMessagePrefix || "¡Hola!"}\n\nNombre: ${name}\nMensaje: ${msg}`;
       window.open(waLink(full), "_blank");
     });
 
     const menuToggle = document.getElementById("menu-toggle");
     const navLinks = document.getElementById("nav-links");
     menuToggle?.addEventListener("click", () => navLinks?.classList.toggle("open"));
-    navLinks?.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => navLinks.classList.remove("open")));
+    navLinks?.querySelectorAll("a").forEach((a) =>
+      a.addEventListener("click", () => navLinks.classList.remove("open"))
+    );
   }
 
   document.addEventListener("DOMContentLoaded", init);

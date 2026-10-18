@@ -1,133 +1,58 @@
-# Artesanías Saravia
+# Artesanías Saravia (versión completa)
 
-Sitio web estático para la marca artesanal de **Emiliano Saravia**, dedicada a piezas tejidas a mano en **mimbre y fibras naturales**. El proyecto presenta un catálogo visual, carrito de compras y flujo de contacto para pedidos por WhatsApp.
+Sitio multi-página para **Emiliano Saravia** — mimbre y fibras naturales.  
+Arquitectura inspirada en el e-commerce de **Mundo Bebé SF**.
 
-## 🌿 Descripción
+## Características
 
-Artesanías Saravia es una tienda online sencilla y elegante pensada para mostrar productos artesanales como:
+- **Home** con hero, destacados automáticos, catálogo resumido, nosotros y contacto
+- **Catálogo multi-página** (`pages/catalogo.html`) con filtros, búsqueda y paginación
+- **Ficha de producto** (`pages/producto.html?id=...`) con galería multi-foto, cantidad, carrito y WhatsApp
+- **Carrito** en localStorage → pedido prearmado por WhatsApp
+- Productos con `price: 0` = “Consultar” (ideal para trabajo a medida)
+- Store robusto: cache, `catalogVersion`, `featured`, `images[]`, placeholders
+- SEO: Open Graph, robots.txt, sitemap.xml, llms.txt
 
-- canastos materos
-- bandoleras
-- organizadores
-- artículos decorativos
-- mobiliario en mimbre
-- trabajos a medida personalizados
+## Estructura
 
-La idea del sitio es mantener una experiencia visual cálida, natural y moderna, con un enfoque comercial práctico para vender directamente por WhatsApp.
-
-## ✨ Funcionalidades
-
-- Diseño responsive y adaptable a distintos dispositivos
-- Catálogo de productos cargado desde JSON
-- Filtros por categorías
-- Búsqueda por nombre o descripción
-- Carrito de compras con almacenamiento local usando localStorage
-- Botones flotantes para WhatsApp y carrito
-- Pedido directo desde la web mediante enlaces de WhatsApp
-- Contacto y consulta personalizada desde el formulario
-- Soporte para trabajos a medida con precio consultado
-
-## 🛠️ Tecnologías utilizadas
-
-- HTML5
-- CSS3
-- JavaScript vanilla
-- JSON para el catálogo
-- localStorage para persistencia del carrito
-- WhatsApp para pedidos y contacto
-
-## 📁 Estructura del proyecto
-
-```bash
+```
 artesanias-saravia/
 ├── index.html
-├── css/
-│   └── style.css
-├── data/
-│   └── catalog.json
-├── img/
+├── privacy.html
+├── terms.html
+├── robots.txt
+├── sitemap.xml
+├── llms.txt
+├── css/style.css
+├── data/catalog.json
+├── img/                 ← fotos de productos
 ├── js/
-│   ├── config.js
-│   ├── main.js
-│   └── store.js
-├── README.md
-└── LICENSE (si se agrega más adelante)
+│   ├── config.js        ← WhatsApp, IG, email, horarios
+│   ├── store.js         ← capa de datos
+│   ├── main.js          ← home + catálogo + carrito
+│   └── product.js       ← ficha de producto
+└── pages/
+    ├── catalogo.html
+    └── producto.html
 ```
 
-## 🚀 Cómo ejecutar el proyecto
+## Configuración
 
-### Opción 1: abrir directamente
+1. `js/config.js` → número de WhatsApp real (código país, sin + ni espacios).
+2. `data/catalog.json` → productos. Subí el `catalogVersion` cuando cambies el stock.
+3. Al publicar, actualizá el dominio en sitemap, robots, llms y canonical.
 
-Simplemente abrí el archivo `index.html` en tu navegador.
-
-### Opción 2: servidor local
-
-Si querés probarlo como un entorno más real:
+## Cómo probar
 
 ```bash
 cd artesanias-saravia
-python -m http.server 8000
+python3 -m http.server 8000
 ```
 
-Luego abrí en el navegador:
+Abrí http://localhost:8000
 
-```text
-http://localhost:8000
-```
+## Notas
 
-## ⚙️ Configuración
-
-### WhatsApp
-
-Editá el archivo `js/config.js` y configurá el número real del negocio:
-
-```js
-whatsappNumber: "5493420000000"
-```
-
-Importante:
-- usar el código de país sin `+`
-- sin espacios ni guiones
-- formato recomendado: `54 + 9 + código de área + número`
-
-### Catálogo de productos
-
-Los productos están definidos en `data/catalog.json`.
-
-Podés modificar:
-- nombre
-- categoría
-- descripción
-- precio
-- stock
-- imagen
-
-Si una imagen no existe o está vacía, el sitio usa un placeholder generado automáticamente.
-
-## 🌐 Redes sociales
-
-- Instagram: https://www.instagram.com/artesanias_saravia/
-- Facebook: https://www.facebook.com/profile.php?id=61577900293015
-
-## 📦 Despliegue
-
-Este proyecto puede publicarse en:
-
-- GitHub Pages
-- Netlify
-- Vercel
-- cualquier hosting estático
-
-No requiere backend ni base de datos.
-
-## 📝 Notas
-
-- Los precios pueden ajustarse según el stock real o la temporada.
-- Los trabajos personalizados aparecen como “Consultar”.
-- Cuando tengas fotos reales de las piezas, reemplazá las imágenes en `data/catalog.json` para que el catálogo quede más auténtico.
-
-## 👤 Autor
-
-Proyecto desarrollado para **Artesanías Saravia**.
-
-Si querés, puedo dejarte también una versión más premium del README con badges, una sección de screenshots y una descripción lista para publicar en GitHub con estilo comercial.
+- Las tarjetas del catálogo abren la ficha de producto; el botón “+” agrega al carrito sin salir.
+- La galería usa `images[]` del JSON (hasta 3 fotos por pieza en esta versión).
+- Destacados se toman de `featured: true` en el catálogo.

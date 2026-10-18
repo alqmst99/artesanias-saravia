@@ -4,8 +4,23 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Artesanías Saravia — Fibras naturales tejidas a mano</title>
-  <meta name="description" content="Emiliano Saravia, artesano de fibras naturales en Santa Fe Capital. Canastos, cestos, mobiliario y trabajos personalizados en mimbre. Pedidos por WhatsApp.">
+  <meta name="description" content="Emiliano Saravia, artesano de fibras naturales en Santa Fe Capital. Canastos materos, bandoleras, mobiliario y trabajos personalizados en mimbre. Pedidos por WhatsApp.">
+  <meta name="keywords" content="mimbre, artesanías, canastos materos, bandoleras, mimbre Santa Fe, tejidos a mano, fibras naturales, Emiliano Saravia">
+  <meta name="author" content="Artesanías Saravia">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://artesaniassaravia.com/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Artesanías Saravia — Mimbre y fibras naturales">
+  <meta property="og:description" content="Piezas tejidas a mano en mimbre. Canastos, bandoleras, mobiliario y encargos a medida. Santa Fe Capital.">
+  <meta property="og:url" content="https://artesaniassaravia.com/">
+  <meta property="og:locale" content="es_AR">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Artesanías Saravia">
+  <meta name="twitter:description" content="Mimbre y fibras naturales tejidas a mano en Santa Fe.">
   <link rel="stylesheet" href="./css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
 </head>
 <body>
 
@@ -24,7 +39,7 @@
     </a>
     <ul class="nav-links" id="nav-links">
       <li><a href="#inicio">Inicio</a></li>
-      <li><a href="#catalogo">Catálogo</a></li>
+      <li><a href="pages/catalogo.html" data-catalog-link>Catálogo</a></li>
       <li><a href="#nosotros">Nosotros</a></li>
       <li><a href="#contacto">Contacto</a></li>
     </ul>
@@ -44,7 +59,7 @@
       <h1>Donde el diseño<br>encuentra el <em>oficio</em><br>del mimbre</h1>
       <p class="lead">Soy Emiliano Saravia. Trabajo a mano piezas en mimbre y fibras naturales: canastos, cestos, mobiliario y encargos a medida. Cada tejido cuenta una historia.</p>
       <div class="hero-ctas">
-        <a href="#catalogo" class="btn btn-primary">Ver catálogo</a>
+        <a href="pages/catalogo.html" class="btn btn-primary" data-catalog-link>Ver catálogo</a>
         <a href="#contacto" class="btn btn-secondary">Pedí a medida</a>
       </div>
     </div>
@@ -78,6 +93,25 @@
 </section>
 
 
+
+<!-- DESTACADOS -->
+<section class="section featured-section" id="destacados">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <h2>Piezas destacadas</h2>
+        <p>Selección de trabajos representativos del taller.</p>
+      </div>
+    </div>
+    <div class="featured-grid" id="featured-grid">
+      <!-- inyectado por JS -->
+    </div>
+    <div class="catalog-cta-bar">
+      <a href="pages/catalogo.html" class="btn btn-secondary" data-catalog-link>Ver catálogo completo →</a>
+    </div>
+  </div>
+</section>
+
 <!-- CATALOG SECTION-->
 <section class="section" id="catalogo">
   <div class="container">
@@ -94,6 +128,9 @@
     <div id="catalog-loading" class="catalog-loading">Cargando catálogo…</div>
     <div class="grid" id="product-grid" style="display:none">
       <!-- productos inyectados por JS -->
+    </div>
+    <div class="catalog-cta-bar">
+      <a href="pages/catalogo.html" class="btn btn-primary" data-catalog-link>Ver todo el catálogo</a>
     </div>
   </div>
 </section>
@@ -173,7 +210,7 @@
     <div>
       <h4>Navegación</h4>
       <ul>
-        <li><a href="#catalogo">Catálogo</a></li>
+        <li><a href="pages/catalogo.html" data-catalog-link>Catálogo</a></li>
         <li><a href="#nosotros">Nosotros</a></li>
         <li><a href="#contacto">Contacto</a></li>
       </ul>
