@@ -67,7 +67,8 @@
       if (src.startsWith("http://") || src.startsWith("https://") || src.startsWith("data:")) {
         return src;
       }
-      const clean = src.replace(/^\.?\/+/, "");
+      let clean = String(src).replace(/^(\.\/|\/)+/, "");
+      while (clean.startsWith("../")) clean = clean.slice(3);
       return basePath() + clean;
     }
     if (product) {
@@ -89,6 +90,7 @@
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     renderCartBadge();
     renderDrawer();
+    window.dispatchEvent(new Event("cart-updated"));
   }
 
   function addToCart(productId) {
@@ -111,12 +113,13 @@
       line.qty += 1;
     } else {
       // Snapshot para que el carrito no se rompa si cambia el catálogo
+      const rawImg = product.image || (product.images && product.images[0]) || "";
       cart.push({
         id: productId,
         qty: 1,
         name: product.name,
         price: product.price,
-        image: product.image || (product.images && product.images[0]) || "",
+        image: String(rawImg || "").replace(/^(\.\/|\/)+/, "").replace(/^(\.\.\/)+/, ""),
         category: product.category,
       });
     }
@@ -366,6 +369,8 @@
   }
 
   function openDrawer() {
+    renderCartBadge();
+    renderDrawer();
     document.getElementById("cart-drawer")?.classList.add("open");
     document.getElementById("overlay")?.classList.add("open");
   }
@@ -558,7 +563,53 @@
     navLinks?.querySelectorAll("a").forEach((a) =>
       a.addEventListener("click", () => navLinks.classList.remove("open"))
     );
+
+    window.addEventListener("cart-updated", () => {
+      renderCartBadge();
+      renderDrawer();
+    });
+    window.addEventListener("storage", (e) => {
+      if (e.key === CART_KEY) {
+        renderCartBadge();
+        renderDrawer();
+      }
+    });
   }
 
-  document.addEventListener("DOMContentLoaded", init);
+  function setupEntryScreen() {
+    const screen = document.getElementById("entry-screen");
+    const enterButton = document.getElementById("entry-enter");
+    if (!screen || !enterButton) return;
+
+    const storageKey = "artesanias_saravia_entry_seen_v1";
+    try {
+      if (sessionStorage.getItem(storageKey)) {
+        screen.hidden = true;
+        return;
+      }
+    } catch (error) {}
+
+    document.body.classList.add("entry-open");
+    enterButton.focus();
+    enterButton.addEventListener(
+      "click",
+      () => {
+        screen.classList.add("is-leaving");
+        screen.setAttribute("aria-hidden", "true");
+        try {
+          sessionStorage.setItem(storageKey, "true");
+        } catch (error) {}
+        setTimeout(() => {
+          screen.hidden = true;
+          document.body.classList.remove("entry-open");
+        }, 550);
+      },
+      { once: true }
+    );
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    setupEntryScreen();
+    init();
+  });
 })();

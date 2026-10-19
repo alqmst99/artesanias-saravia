@@ -34,7 +34,8 @@
     ) {
       return src;
     }
-    const clean = src.replace(/^\.?\/+/, "");
+    let clean = String(src).replace(/^(\.\/|\/)+/, "");
+    while (clean.startsWith("../")) clean = clean.slice(3);
     return getImageBase() + clean;
   }
 
@@ -69,12 +70,12 @@
 
   function setCart(cart) {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    window.dispatchEvent(new Event("cart-updated"));
     const count = cart.reduce((s, l) => s + l.qty, 0);
     document.querySelectorAll(".cart-badge").forEach((el) => {
       el.textContent = count;
       el.classList.toggle("show", count > 0);
     });
+    window.dispatchEvent(new Event("cart-updated"));
   }
 
   function addToCart() {
@@ -93,16 +94,18 @@
     if (line) {
       line.qty += qty;
     } else {
+      const rawImg = product.image || (product.images && product.images[0]) || "";
       cart.push({
         id: product.id,
         qty,
         name: product.name,
         price: product.price,
-        image: product.image || (product.images && product.images[0]) || "",
+        image: String(rawImg || "").replace(/^(\.\/|\/)+/, "").replace(/^(\.\.\/)+/, ""),
         category: product.category,
       });
     }
     setCart(cart);
+    renderDrawerLite();
     showToast(`Agregado: ${product.name}${qty > 1 ? " ×" + qty : ""}`);
   }
 
@@ -330,12 +333,23 @@
 
     // drawer minimal open/close (main.js may also handle on index)
     document.getElementById("cart-open-btn")?.addEventListener("click", () => {
+      renderDrawerLite();
       document.getElementById("cart-drawer")?.classList.add("open");
       document.getElementById("overlay")?.classList.add("open");
     });
     document.getElementById("fab-cart")?.addEventListener("click", () => {
+      renderDrawerLite();
       document.getElementById("cart-drawer")?.classList.add("open");
       document.getElementById("overlay")?.classList.add("open");
+    });
+    window.addEventListener("cart-updated", () => {
+      renderDrawerLite();
+      const cart = getCart();
+      const count = cart.reduce((s, l) => s + l.qty, 0);
+      document.querySelectorAll(".cart-badge").forEach((el) => {
+        el.textContent = count;
+        el.classList.toggle("show", count > 0);
+      });
     });
     document.getElementById("drawer-close")?.addEventListener("click", () => {
       document.getElementById("cart-drawer")?.classList.remove("open");
