@@ -11,7 +11,7 @@
   --cream-2: #EFE9DF;
   --ink: #1F1A16;
   --ink-soft: #5C534A;
-  --line: #E0D6C8;
+  --line: #ffd9a3;
   --white: #FFFFFF;
   --sage: #6B7F6A;
   --accent: #965616;
@@ -85,7 +85,7 @@ header.site-header {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(247, 243, 236, 0.92);
+background: rgb(245 219 174 / 40%);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
